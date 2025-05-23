@@ -21,7 +21,7 @@
 
 	<!-- GitHub Source Link -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub"/>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all"/>
 	</ItemGroup>
 	<!-- xUnit Tests-->
 	<ItemGroup Condition="$(MSBuildProjectName.Contains('Tests'))">
@@ -35,4 +35,9 @@
 		<PackageReference Include="FluentAssertions"/>
 	</ItemGroup>
 
+	<Target Name="SetCoverletOutputProperty" BeforeTargets="GenerateCoverageResult">
+		<PropertyGroup>
+			<CoverletOutput>$(VSTestResultsDirectory)\$(MSBuildProjectName).coverage</CoverletOutput>
+		</PropertyGroup>
+	</Target>
 </Project>

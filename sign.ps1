@@ -1,6 +1,8 @@
 param(
     [Parameter(mandatory=$false)]
-    [bool]$dryrun=$false,
+    [bool]$publish=$true,
+    [Parameter(mandatory=$false)]
+    [bool]$skip=$false,
     [Parameter(mandatory=$false)]
     [string]$certicate="Open Source Developer, Sarin Na Wangkanai"
 )
@@ -30,6 +32,7 @@ $dirs=[ordered]@{
 #    22="Tabler";
 #    23="Solver";
 #    24="Microservice";
+#    25="Nation";
 }
 
 $env:OneDriveConsumer+"\powershell-env.ps1" | out-null
@@ -76,7 +79,7 @@ for ($i=0; $i -lt $dirs.count; $i++) {
         if ($latest -ne $version)
         {
             Write-Host $latest " < " $version " Update" -ForegroundColor Green;
-            .\sign.ps1 -dryrun $dryrun -name $certicate
+            .\sign.ps1 -publish $publish -name $certicate
         }
         else
         {
@@ -86,15 +89,15 @@ for ($i=0; $i -lt $dirs.count; $i++) {
     catch
     {
         Write-Host "New " $latest -ForegroundColor Blue;
-        .\sign.ps1 -dryrun $dryrun -name $certicate
+        .\sign.ps1 -publish $publish -name $certicate
     }
 
     Pop-Location;
 }
 
-if ($dryrun)
+if ($skip)
 {
-    write-host "Dryrun skip version update" -ForegroundColor Yellow;
+    write-host "Skip version update" -ForegroundColor Yellow;
     exit;
 }
 
